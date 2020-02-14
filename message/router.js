@@ -3,7 +3,12 @@ const { Router } = express;
 const router = Router();
 const Message = require("./model");
 const Sse = require("json-sse");
+const stream = new Sse();
 
+router.get("/stream", (request, response, next) => {
+  stream.updateInit("test");
+  stream.init(request, response);
+});
 router.get("/message", async function(request, response, next) {
   try {
     const messages = await Message.findAll();
