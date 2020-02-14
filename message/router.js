@@ -29,8 +29,10 @@ router.post("/message", async function(request, response, next) {
     const { body } = request;
     const { text } = body;
     const entity = { text };
-    await Message.create(entity);
-    response.status(200).json(entity);
+    const message = await Message.create(entity);
+    const json = JSON.stringify(message);
+    stream.send(json);
+    response.send(message);
     console.log("Request.body test: ", body);
   } catch (error) {
     next(error);
